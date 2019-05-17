@@ -25,23 +25,31 @@ class HackathonList extends Component{
     }
   render(){
     console.log('state', this.state)
+    let color = 'red';
       return(
           <div className="container">
-              <h1>Current Hackathons</h1> 
-              {
-                this.state.data ? this.state.data.map((item, key) => {
-                    return (
-                        <ul className="list-group" key={key}>
-                            <li className="list-group-item d-flex justify-content-between align-items-center">
-                                <Link to={`/hackathon/${item._id}`}>
+              <h3>Current Hackathons</h3> 
+              <hr className="line"/>
+              <div className="container listPostUser">
+                {
+                    this.state.data ? this.state.data.map((item, key) => {
+                        return (
+
+                            <div className="row" key={key}>
+                                <Link className="col-10 text-left" to={`/hackathon/${item._id}`}>
                                     {item.name}
-                                    <span className="badge badge-primary badge-pill">go</span>
                                 </Link>
-                            </li>
-                        </ul>
-                    );
-                }): <Spinner />
-            }
+
+                                <Link className="col-2 text-left" to={`/hackathon/${item._id}`}>
+                                        <i className="fa fa-angle-double-right fa-1x"></i>
+                                </Link>
+                                <hr className="line"/>
+                            </div>
+                        );
+                    }): <Spinner />
+                }
+              </div>
+
           </div>
       );
   }
