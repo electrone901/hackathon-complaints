@@ -4,9 +4,7 @@ class AddHackathon extends Component {
     constructor() {
         super();
         this.state = {
-            author: '',
-            rating: null,
-            description: '',
+            text: '',
             errors: {}
         }
         this.onChange = this.onChange.bind(this);
@@ -22,14 +20,33 @@ class AddHackathon extends Component {
     }
 
     onSubmit(e) {
-        console.log('click', )
+//         Link - https://hackathoncomplains.herokuapp.com/hackathon
+// Request - POST
+// Body - name
+        console.log('click', this.state)
         e.preventDefault();
         const reviewData = {
-            name: this.state.author,
-            rating: this.state.rating,
-            text: this.state.description,
+            text: this.state.text,
         };
-        this.props.postReview(reviewData, this.props.match.params.id, this.props.history);
+        console.log('click', reviewData)
+        let url = "https://hackathoncomplains.herokuapp.com/hackathon";
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                name: this.state.text
+            }),
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        })
+        .then(res => {
+            console.log('it work');
+            this.props.history.push('/');
+        })
+        .catch((err) => {
+            console.log('There was a problem with your fetch request' + err.message);
+        });
+        // this.props.postReview(reviewData, this.props.match.params.id, this.props.history);
     }
     
     render() {
@@ -42,30 +59,15 @@ class AddHackathon extends Component {
                         <h1>Add Hackathon</h1>
                         <form onSubmit={this.onSubmit} >
                             <div className="form-group">
-                            <label htmlFor="text">Item name</label>
+                            <label htmlFor="text">Name of the Hackathon</label>
                                 <div className="col">
                                     <input
                                         type="text"
-                                        name="name"
-                                        value={this.state.name}
+                                        name="text"
+                                        value={this.state.text}
                                         onChange={this.onChange} 
                                         className="col-8"
                                     />
-                                </div>
-
-                                <label htmlFor="text">Review</label>
-                                <div className="form-group">
-                                    <textarea 
-                                        type="text" 
-                                        id="description" 
-                                        min="5" 
-                                        name="description"
-                                        value={this.state.description}
-                                        onChange={this.onChange} 
-                                        rows="3"
-                                        className="col-8"
-                                        >
-                                    </textarea>
                                 </div>
                                 <input type="submit" className="btn btn-info btn-block mt-4" />
                             </div>
